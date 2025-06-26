@@ -38,7 +38,7 @@ const Login = () => {
       if (user?.role === "ADMIN") navigate("/admin");
       else if (user?.role === "CUSTOMER") navigate("/dashboard");
     } catch (err) {
-      // showError("Login failed. Please check your credentials.");
+      showError("Login failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }
