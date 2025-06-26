@@ -1,0 +1,96 @@
+/* Landing.css */
+
+.landing-hero {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+  padding: 2rem 1rem;
+  text-align: center;
+  animation: fadeIn 1s ease-in;
+}
+
+.landing-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #004d40;
+  margin-bottom: 1rem;
+  animation: slideInDown 1s ease;
+}
+
+.landing-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+  animation: slideInUp 1s ease;
+}
+
+.landing-buttons .btn {
+  margin: 0 0.5rem;
+  min-width: 120px;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.landing-wrapper {
+  background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+}
+
+.features-section .feature-card:hover {
+  background-color: #f0f8ff;
+  transform: translateY(-5px);
+  transition: 0.3s ease;
+  border: 1px solid #0d6efd20;
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, #0d6efd 0%, #004085 100%);
+}
+
+.get-started-btn {
+    background-color: #fff;
+    color: #0d6efd;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .get-started-btn:hover {
+    background-color: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+    transform: scale(1.05);
+  }
+  

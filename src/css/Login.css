@@ -1,0 +1,70 @@
+.login-bg {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #e3f0ff 0%, #b6e0fe 50%, #e0f7fa 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-card,
+.register-card {
+  border-radius: 2rem;
+  background: #fff;
+  max-width: 420px;
+  width: 100%;
+  border: none;
+}
+.register-card
+{
+  max-width: 450px;
+}
+
+.login-title {
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 1px;
+}
+
+.login-btn {
+  font-weight: 600;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #1976d2 0%, #26c6da 100%);
+  border: none;
+  transition: background 0.3s;
+  color: #fff;
+}
+
+.login-btn:hover {
+  background: linear-gradient(90deg, #26c6da 0%, #1976d2 100%);
+}
+
+.form-control:focus {
+  border-color: #26c6da;
+  box-shadow: 0 0 0 0.2rem rgba(38, 198, 218, 0.15);
+}
+
+.form-floating .form-control.rounded-pill {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  height: 2.5rem;
+  font-size: 1rem;
+}
+
+/* Admin card hover effect */
+.admin-card-hover {
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.admin-card-hover:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(80, 80, 160, 0.15);
+}
+
+.nav-link {
+  transition: background 0.18s, color 0.18s;
+}
+.nav-link:hover,
+.nav-link:focus {
+  background: #e3f0ff !important;
+  color: #1976d2 !important;
+  text-decoration: underline;
+}
