@@ -9,8 +9,7 @@ const Login = () => {
   const { login, isAuthenticated, isAdmin, isCustomer, logout } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ usernameOrEmail: "", password: "" });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
   const fromSubmitRef = useRef(false);
 
@@ -27,7 +26,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    
     setLoading(true);
     try {
       fromSubmitRef.current = true;
@@ -50,7 +49,7 @@ const Login = () => {
         <Card className="login-card shadow-lg p-4">
           <Card.Body>
             <h2 className="mb-4 text-center login-title">Welcome Back</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
+           
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="usernameOrEmail" className="mb-3">
                 <Form.Label>Username or Email</Form.Label>

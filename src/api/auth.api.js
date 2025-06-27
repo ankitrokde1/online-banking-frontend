@@ -11,3 +11,6 @@ export const logoutUser = async () => {
 export const registerUser = async (data) => {
   return axios.post("/auth/register", data);
 };
+
+// Creat axios instance for admin API
+export const createAdminUser = (data) => axios.post("/auth/create-admin", data);

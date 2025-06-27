@@ -26,6 +26,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword.jsx";
 import AdminActions from "../pages/admin/AdminActions.jsx";
 import Home from "../pages/misc/Home.jsx";
 import UserProfile from "../pages/profile/UserProfile.jsx";
+import CreateAdmin from "../pages/admin/CreateAdmin.jsx";
 
 const AppRoutes = () => {
   return (
@@ -78,6 +79,7 @@ const AppRoutes = () => {
         <Route path="pending-transactions" element={<PendingTransactions />} />
         <Route path="users" element={<ManageUsers />} />
         <Route path="actions" element={<AdminActions />} />
+        <Route path="create-admin" element={<CreateAdmin />} />
       </Route>
 
       {/* Password Reset Routes */}

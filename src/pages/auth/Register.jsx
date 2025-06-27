@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/auth.api";
 import { Container, Form, Button, Alert, Card } from "react-bootstrap";
 import "../../css/Login.css";
+import { showError, showSuccess } from "../../utils/toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -12,8 +13,7 @@ const Register = () => {
     password: "",
     role: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
@@ -21,15 +21,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+
     setLoading(true);
     try {
       await registerUser(form);
-      setSuccess("Registration successful. Please login.");
-      setTimeout(() => navigate("/login"), 1500);
+      showSuccess("Registration successful. Redirecting to login...");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      setError(
+      showError(
         err.response?.data?.message || "Registration failed. Try again."
       );
     } finally {
@@ -43,8 +42,7 @@ const Register = () => {
         <Card className="register-card shadow-lg p-4">
           <Card.Body>
             <h2 className="mb-4 text-center login-title">Register</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            {success && <Alert variant="success">{success}</Alert>}
+
             <Form onSubmit={handleSubmit}>
               <Form.Group controlId="username" className="mb-3">
                 <Form.Label>Username</Form.Label>
@@ -86,24 +84,6 @@ const Register = () => {
                   className="rounded-pill"
                   disabled={loading}
                 />
-              </Form.Group>
-
-              <Form.Group controlId="role" className="mb-3">
-                <Form.Label>Role</Form.Label>
-                <Form.Select
-                  name="role"
-                  value={form.role}
-                  onChange={handleChange}
-                  required
-                  className="rounded-pill"
-                  disabled={loading}
-                >
-                  <option value="" disabled>
-                    Select your role
-                  </option>
-                  <option value="CUSTOMER">Customer</option>
-                  <option value="ADMIN">Admin</option>
-                </Form.Select>
               </Form.Group>
 
               <div className="d-flex justify-content-between mb-3">
