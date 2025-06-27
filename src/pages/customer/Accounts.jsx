@@ -20,6 +20,7 @@ const Accounts = () => {
   const [accounts, setAccounts] = useState([]);
   const [error, setError] = useState("");
   const [accountType, setAccountType] = useState("SAVINGS");
+  const [requestLoading, setRequestLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchAccounts = async () => {
@@ -32,12 +33,15 @@ const Accounts = () => {
   };
 
   const handleRequestAccount = async () => {
+    setRequestLoading(true);
     try {
       await requestAccount(accountType);
       showInfo("Account request submitted successfully.");
       fetchAccounts(); // reload accounts
     } catch {
       alert("Failed to request account.");
+    } finally {
+      setRequestLoading(false);
     }
   };
 
@@ -65,8 +69,20 @@ const Accounts = () => {
           variant="outline-dark"
           className="rounded-pill"
           onClick={handleRequestAccount}
+          disabled={requestLoading}
         >
-          ➕ Request New Account
+          {requestLoading ? (
+            <>
+              <span
+                className="spinner-border spinner-border-sm me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Requesting...
+            </>
+          ) : (
+            <>➕ Request New Account</>
+          )}
         </Button>
       </div>
 
@@ -85,7 +101,7 @@ const Accounts = () => {
                   cursor: "pointer",
                   transition: "transform 0.18s, box-shadow 0.18s",
                 }}
-                onClick={() => navigate(`/accounts/${acc.accountNumber}`)}
+                // onClick={() => navigate(`/accounts/${acc.accountNumber}`)}
                 tabIndex={0}
                 role="button"
                 onKeyDown={(e) => {

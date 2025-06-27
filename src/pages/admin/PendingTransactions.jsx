@@ -22,6 +22,7 @@ const PendingTransactions = () => {
   const [txns, setTxns] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false); // Add this
 
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("ALL");
@@ -45,6 +46,7 @@ const PendingTransactions = () => {
   };
 
   const handleAction = async (id, action) => {
+    setActionLoading(true); // Start loader
     setShowConfirm(false);
     try {
       await processTransaction(id, action);
@@ -56,6 +58,8 @@ const PendingTransactions = () => {
       );
     } catch {
       showError("Failed to process transaction.");
+    } finally {
+      setActionLoading(false); // Stop loader
     }
   };
 
@@ -229,14 +233,34 @@ const PendingTransactions = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowConfirm(false)}
+            disabled={actionLoading}
+          >
             Cancel
           </Button>
           <Button
             variant={pendingAction?.action === "approve" ? "success" : "danger"}
             onClick={() => handleAction(pendingAction.id, pendingAction.action)}
+            disabled={actionLoading}
           >
-            {pendingAction?.action === "approve" ? "Approve" : "Reject"}
+            {actionLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {pendingAction?.action === "approve"
+                  ? "Approving..."
+                  : "Rejecting..."}
+              </>
+            ) : pendingAction?.action === "approve" ? (
+              "Approve"
+            ) : (
+              "Reject"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

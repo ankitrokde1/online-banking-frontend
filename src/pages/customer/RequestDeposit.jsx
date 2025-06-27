@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { requestDeposit } from "../../api/transaction.api";
 import { Container, Form, Button, Alert, Card } from "react-bootstrap";
+import { showSuccess } from "../../utils/toast";
 
 const RequestDeposit = () => {
   const [form, setForm] = useState({ targetAccountNumber: "", amount: "" });
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Add this
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,12 +16,15 @@ const RequestDeposit = () => {
     e.preventDefault();
     setSuccess("");
     setError("");
+    setLoading(true); // Start loader
     try {
       await requestDeposit(form);
-      setSuccess("Deposit request submitted successfully!");
+      showSuccess("Deposit request submitted successfully!");
       setForm({ targetAccountNumber: "", amount: "" });
     } catch (err) {
       setError("Failed to submit deposit request.");
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
 
@@ -32,7 +37,7 @@ const RequestDeposit = () => {
         >
           <Card.Body>
             <h2 className="mb-3 text-center login-title">Request Deposit</h2>
-            {success && <Alert variant="success">{success}</Alert>}
+            {/* {success && <Alert variant="success">{success}</Alert>} */}
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
@@ -60,8 +65,23 @@ const RequestDeposit = () => {
                   className="rounded-pill"
                 />
               </Form.Group>
-              <Button type="submit" className="w-100 rounded-pill login-btn">
-                Submit Deposit Request
+              <Button
+                type="submit"
+                className="w-100 rounded-pill login-btn"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Deposit Request"
+                )}
               </Button>
             </Form>
           </Card.Body>

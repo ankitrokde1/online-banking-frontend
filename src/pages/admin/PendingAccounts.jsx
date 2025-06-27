@@ -13,6 +13,7 @@ const PendingAccounts = () => {
   const [error, setError] = useState("");
   const [usernames, setUsernames] = useState({});
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false); // <-- Add this
 
   // Confirmation modal state
   const [showConfirm, setShowConfirm] = useState(false);
@@ -47,12 +48,15 @@ const PendingAccounts = () => {
   };
 
   const handleAction = async (id, action) => {
+    setActionLoading(true); // Start loader
     setShowConfirm(false);
     try {
       await processAccount(id, action);
       fetchData();
     } catch {
       showError("Action failed.");
+    } finally {
+      setActionLoading(false); // Stop loader
     }
   };
 
@@ -167,14 +171,32 @@ const PendingAccounts = () => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowConfirm(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowConfirm(false)}
+            disabled={actionLoading}
+          >
             Cancel
           </Button>
           <Button
             variant={pendingAction?.action ? "success" : "danger"}
             onClick={() => handleAction(pendingAction.id, pendingAction.action)}
+            disabled={actionLoading}
           >
-            {pendingAction?.action ? "Approve" : "Reject"}
+            {actionLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {pendingAction?.action ? "Approving..." : "Rejecting..."}
+              </>
+            ) : pendingAction?.action ? (
+              "Approve"
+            ) : (
+              "Reject"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

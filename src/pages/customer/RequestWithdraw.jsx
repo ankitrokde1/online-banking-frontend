@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { requestWithdraw } from "../../api/transaction.api";
 import { Container, Form, Button, Alert, Card } from "react-bootstrap";
+import { showSuccess } from "../../utils/toast";
 
 const RequestWithdraw = () => {
   const [form, setForm] = useState({ sourceAccountNumber: "", amount: "" });
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Add this
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,12 +16,15 @@ const RequestWithdraw = () => {
     e.preventDefault();
     setSuccess("");
     setError("");
+    setLoading(true); // Start loader
     try {
       await requestWithdraw(form);
-      setSuccess("Withdrawal request submitted for approval.");
+      showSuccess("Withdrawal request submitted for approval.");
       setForm({ sourceAccountNumber: "", amount: "" });
     } catch (err) {
       setError("Failed to submit withdrawal request.");
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
 
@@ -32,7 +37,7 @@ const RequestWithdraw = () => {
         >
           <Card.Body>
             <h2 className="mb-3 text-center login-title">Request Withdrawal</h2>
-            {success && <Alert variant="success">{success}</Alert>}
+            {/* {success && <Alert variant="success">{success}</Alert>} */}
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
@@ -68,8 +73,20 @@ const RequestWithdraw = () => {
                     "linear-gradient(90deg, #d32f2f 0%, #ff8a65 100%)",
                   border: "none",
                 }}
+                disabled={loading}
               >
-                Submit Withdrawal Request
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Withdrawal Request"
+                )}
               </Button>
             </Form>
           </Card.Body>

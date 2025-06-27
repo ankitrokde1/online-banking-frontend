@@ -22,6 +22,10 @@ const ManageUsers = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAccountsModal, setShowAccountsModal] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false); // <-- Add this line
+  const [editLoading, setEditLoading] = useState(false);
+  const [accountActionLoading, setAccountActionLoading] = useState(false);
+
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [editForm, setEditForm] = useState({
@@ -100,6 +104,7 @@ const ManageUsers = () => {
   };
 
   const handleConfirmDelete = async () => {
+    setDeleteLoading(true);
     try {
       await deleteUser(selectedUser.id);
       showSuccess(`Deleted ${selectedUser.username}`);
@@ -108,6 +113,8 @@ const ManageUsers = () => {
       fetchUsers();
     } catch (err) {
       showError("Failed to delete user.");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -122,6 +129,7 @@ const ManageUsers = () => {
   };
 
   const handleEditSubmit = async () => {
+    setEditLoading(true);
     try {
       await updateUser(selectedUser.id, editForm);
       showSuccess("User updated successfully.");
@@ -131,7 +139,8 @@ const ManageUsers = () => {
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to update user.";
       showError(msg);
-      // showError("Failed to update user.");
+    } finally {
+      setEditLoading(false);
     }
   };
 
@@ -145,6 +154,7 @@ const ManageUsers = () => {
   };
 
   const handleToggleAccount = async (accountNumber, isActive) => {
+    setAccountActionLoading(true);
     try {
       if (isActive) {
         await deactivateAccount(accountNumber);
@@ -159,6 +169,8 @@ const ManageUsers = () => {
       setSelectedUser(updatedUser);
     } catch (err) {
       showError("Failed to update account status.");
+    } finally {
+      setAccountActionLoading(false);
     }
   };
 
@@ -314,11 +326,30 @@ const ManageUsers = () => {
           <strong>{selectedUser?.username}</strong>?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowDeleteModal(false)}
+            disabled={deleteLoading}
+          >
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleConfirmDelete}>
-            Yes, Delete
+          <Button
+            variant="danger"
+            onClick={handleConfirmDelete}
+            disabled={deleteLoading}
+          >
+            {deleteLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Deleting...
+              </>
+            ) : (
+              "Yes, Delete"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -367,11 +398,30 @@ const ManageUsers = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowEditModal(false)}
+            disabled={editLoading}
+          >
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleEditSubmit}>
-            Save Changes
+          <Button
+            variant="primary"
+            onClick={handleEditSubmit}
+            disabled={editLoading}
+          >
+            {editLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Saving...
+              </>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -507,6 +557,7 @@ const ManageUsers = () => {
           <Button
             variant="secondary"
             onClick={() => setPendingAccountAction(null)}
+            disabled={accountActionLoading}
           >
             Cancel
           </Button>
@@ -519,8 +570,24 @@ const ManageUsers = () => {
               );
               setPendingAccountAction(null);
             }}
+            disabled={accountActionLoading}
           >
-            {pendingAccountAction?.isActive ? "Deactivate" : "Activate"}
+            {accountActionLoading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {pendingAccountAction?.isActive
+                  ? "Deactivating..."
+                  : "Activating..."}
+              </>
+            ) : pendingAccountAction?.isActive ? (
+              "Deactivate"
+            ) : (
+              "Activate"
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

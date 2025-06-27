@@ -1,15 +1,19 @@
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { useAuth } from "../../auth/AuthProvider.jsx";
 import { useNavigate, NavLink, Link } from "react-router-dom";
+import { useState } from "react";
 import "../../css/Login.css"; // For custom styles
 
 const AppNavbar = () => {
   const { user, isAuthenticated, isAdmin, isCustomer, logout } = useAuth();
   const navigate = useNavigate();
+  const [loggingOut, setLoggingOut] = useState(false); // Loader state
 
   const handleLogout = async () => {
+    setLoggingOut(true);
     await logout();
     navigate("/login");
+    setLoggingOut(false);
   };
 
   // Custom style for active nav link
@@ -30,9 +34,10 @@ const AppNavbar = () => {
         <Navbar.Brand
           as={NavLink}
           to="/"
+          className="navbar-username-link"
           style={{ fontWeight: 700, color: "#1976d2" }}
         >
-          💰 Online Banking
+          💰 SecureBank
         </Navbar.Brand>
 
         {isAuthenticated && (
@@ -106,6 +111,7 @@ const AppNavbar = () => {
               <Navbar.Text className="me-3">
                 <Link
                   to="/profile"
+                  className="navbar-username-link"
                   style={{
                     textDecoration: "none",
                     color: "#1976d2",
@@ -116,8 +122,23 @@ const AppNavbar = () => {
                 </Link>
               </Navbar.Text>
 
-              <Button variant="outline-primary" onClick={handleLogout}>
-                Logout
+              <Button
+                variant="outline-primary"
+                onClick={handleLogout}
+                disabled={loggingOut}
+              >
+                {loggingOut ? (
+                  <span>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Logging out...
+                  </span>
+                ) : (
+                  "Logout"
+                )}
               </Button>
             </Navbar.Collapse>
           </>
