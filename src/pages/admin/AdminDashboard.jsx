@@ -40,6 +40,15 @@ const adminCards = [
     to: "/admin/actions",
     aria: "Go to Admin Actions",
   },
+  {
+    title: "Create Admin",
+    desc: "Add a new admin user to the system.",
+    icon: "➕",
+    color: "#6a1b9a",
+    bg: "linear-gradient(135deg, #ede7f6 0%, #ce93d8 100%)",
+    to: "/admin/create-admin",
+    aria: "Go to Create Admin",
+  },
 ];
 
 const AdminDashboard = () => {

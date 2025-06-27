@@ -76,7 +76,7 @@ const PendingAccounts = () => {
       {loading ? (
         <Loader size="md" message="Loading pending accounts..." />
       ) : accounts.length === 0 ? (
-        <p>No pending account requests.</p>
+               <Alert variant="info">No pending account requests.</Alert>
       ) : (
         <Table bordered hover>
           <thead>

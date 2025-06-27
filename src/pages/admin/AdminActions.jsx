@@ -68,7 +68,7 @@ const AdminActions = () => {
   return (
     <Container className="mt-4">
       <div style={{ maxWidth: 420, margin: "0 auto" }}>
-      <h2 className="mb-4">⚙️ Admin Direct Transaction</h2>
+        <h2 className="mb-4">⚙️ Admin Direct Transaction</h2>
         <Card className="mb-4 shadow-lg">
           <Card.Body>
             <Form onSubmit={handleSubmit}>
@@ -92,6 +92,7 @@ const AdminActions = () => {
                     type="text"
                     name="targetAccountNumber"
                     value={form.targetAccountNumber}
+                    placeholder="Account Number to Deposit"
                     onChange={handleChange}
                     required
                     className="rounded-pill"
@@ -107,6 +108,7 @@ const AdminActions = () => {
                     name="sourceAccountNumber"
                     value={form.sourceAccountNumber}
                     onChange={handleChange}
+                    placeholder="Account Number to Withdraw"
                     required
                     className="rounded-pill"
                   />
@@ -123,6 +125,7 @@ const AdminActions = () => {
                         name="sourceAccountNumber"
                         value={form.sourceAccountNumber}
                         onChange={handleChange}
+                        placeholder="Transfer From"
                         required
                         className="rounded-pill"
                       />
@@ -135,6 +138,7 @@ const AdminActions = () => {
                         type="text"
                         name="targetAccountNumber"
                         value={form.targetAccountNumber}
+                        placeholder="Transfer To"
                         onChange={handleChange}
                         required
                         className="rounded-pill"
@@ -152,6 +156,7 @@ const AdminActions = () => {
                   min="1"
                   value={form.amount}
                   onChange={handleChange}
+                  placeholder="Enter amount"
                   required
                   className="rounded-pill"
                 />
