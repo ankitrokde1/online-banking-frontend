@@ -2,7 +2,9 @@ import axios from "axios";
 import { showError } from "../utils/toast";
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api",
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL ||
+    "https://online-banking-backend-plk0.onrender.com/api",
   withCredentials: true, // ✅ send HTTP-only cookies
 });
 
