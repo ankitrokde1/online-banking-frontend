@@ -2,6 +2,7 @@
 
 A modern, responsive React-based frontend for the Online Banking System. This application enables users to securely manage their bank accounts, perform transactions, and access a range of banking services through an intuitive web interface.
 
+🚀 **Live Demo**: [iNotebook App](https://online-banking-frontend-five.vercel.app/)
 ---
 
 ## Features
